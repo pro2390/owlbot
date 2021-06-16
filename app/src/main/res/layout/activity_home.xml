@@ -18,7 +18,8 @@
     app:layout_constraintVertical_bias="0.0"
     android:imeOptions="actionSearch"
     android:lines="1"
-    android:inputType="textAutoComplete|textAutoCorrect"
+    android:inputType="textAutoComplete|textAutoCorrect|text"
+    android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
     android:drawableEnd="@android:drawable/ic_menu_search" />
 
 

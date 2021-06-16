@@ -20,13 +20,14 @@ import com.dev.owlbot.R
 import com.dev.owlbot.common.Utils
 import com.dev.owlbot.home.adapter.DefinitionAdapter
 import com.dev.owlbot.home.model.GetDescriptionRS
+import com.dev.owlbot.home.model.SearchQueryTextValidator
 import com.dev.owlbot.home.presenter.GetDescriptionPresenter
 import com.dev.owlbot.home.view.GetDescriptionView
 
 class HomeActivity : AppCompatActivity(), GetDescriptionView {
-    lateinit var rvDefinition: RecyclerView
-    lateinit var actSearch: AutoCompleteTextView
-    lateinit var progressBar: ProgressBar
+    private lateinit var rvDefinition: RecyclerView
+    private lateinit var actSearch: AutoCompleteTextView
+    private lateinit var progressBar: ProgressBar
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -42,10 +43,7 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
                 if (event.rawX >= actSearch.right - actSearch
                         .compoundDrawables[DRAWABLE_RIGHT].bounds.width()
                 ) {
-                    // your action here
-                    if (actSearch.text.toString().length > 1) {
-                        getDescriptionApiCall(actSearch.text.toString())
-                    }
+                    searchClick()
                     return@setOnTouchListener true
                 }
             }
@@ -53,13 +51,19 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         }
         actSearch.setOnEditorActionListener { textView: TextView?, i: Int, keyEvent: KeyEvent? ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
-                if (actSearch.text.toString().length > 1) {
-                    getDescriptionApiCall(actSearch.text.toString())
-                } else {
-                    Toast.makeText(this, "Enter valid text.", Toast.LENGTH_SHORT).show()
-                }
+                searchClick()
             }
             false
+        }
+    }
+
+    fun searchClick() {
+        var validator = SearchQueryTextValidator()
+        if (validator.validateQuery(actSearch.text.toString())) {
+            getDescriptionApiCall(actSearch.text.toString())
+        } else {
+            Toast.makeText(this, getString(R.string.valid_input), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
