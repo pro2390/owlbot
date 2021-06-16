@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">OwlBot</string>
+    <string name="error_msg_internet">No internet connection!</string>
+    <string name="error_msg_servererror">Something went wrong</string>
+</resources>
