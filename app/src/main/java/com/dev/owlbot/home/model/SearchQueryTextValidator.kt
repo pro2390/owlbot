@@ -1,9 +1,10 @@
 package com.dev.owlbot.home.model
 
+//Validation for search text entered
 class SearchQueryTextValidator {
     companion object {
-        val EMPTY = ""
-        val MIN_QUERY_LENGTH = 2
+        const val EMPTY = ""
+        const val MIN_QUERY_LENGTH = 2
     }
 
     fun validateQuery(queryText: String): Boolean {

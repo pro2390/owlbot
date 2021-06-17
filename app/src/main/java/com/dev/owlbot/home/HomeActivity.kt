@@ -1,7 +1,6 @@
 package com.dev.owlbot.home
 
 import android.os.Bundle
-import android.transition.Visibility
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -10,7 +9,6 @@ import android.widget.AutoCompleteTextView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.VisibleForTesting
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -34,14 +32,16 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         actSearch = findViewById(R.id.actSearch)
         rvDefinition = findViewById(R.id.rvDefinitions)
         progressBar = findViewById(R.id.progressBar)
-        actSearch.setOnTouchListener { v: View?, event: MotionEvent ->
-            val DRAWABLE_LEFT = 0
-            val DRAWABLE_TOP = 1
-            val DRAWABLE_RIGHT = 2
-            val DRAWABLE_BOTTOM = 3
+        actListener()
+    }
+
+    //Right drawable click listener for AutoCompleteTextView
+    private fun actListener() {
+        actSearch.setOnTouchListener { _: View?, event: MotionEvent ->
+            val drawableRight = 2
             if (event.action == MotionEvent.ACTION_UP) {
                 if (event.rawX >= actSearch.right - actSearch
-                        .compoundDrawables[DRAWABLE_RIGHT].bounds.width()
+                        .compoundDrawables[drawableRight].bounds.width()
                 ) {
                     searchClick()
                     return@setOnTouchListener true
@@ -49,7 +49,7 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
             }
             false
         }
-        actSearch.setOnEditorActionListener { textView: TextView?, i: Int, keyEvent: KeyEvent? ->
+        actSearch.setOnEditorActionListener { _: TextView?, i: Int, _: KeyEvent? ->
             if (i == EditorInfo.IME_ACTION_SEARCH) {
                 searchClick()
             }
@@ -57,8 +57,9 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         }
     }
 
-    fun searchClick() {
-        var validator = SearchQueryTextValidator()
+    //Click action check if user input is valid
+    private fun searchClick() {
+        val validator = SearchQueryTextValidator()
         if (validator.validateQuery(actSearch.text.toString())) {
             getDescriptionApiCall(actSearch.text.toString())
         } else {
@@ -67,7 +68,8 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         }
     }
 
-    fun getDescriptionApiCall(query: String) {
+    //Method for api call to get definition of word entered
+    private fun getDescriptionApiCall(query: String) {
         showProgressBar()
         Utils.hideSoftInput(this)
         if (rvDefinition.adapter != null) {
@@ -76,6 +78,7 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         GetDescriptionPresenter(this).getCityDistrictPinCodeOutPutCall(this, query)
     }
 
+    //Success callback for api call
     override fun onGetDescriptionSuccess(description: GetDescriptionRS?) {
         val definitionAdapter = DefinitionAdapter(description?.definitions)
         val mLayoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)
@@ -83,7 +86,7 @@ class HomeActivity : AppCompatActivity(), GetDescriptionView {
         rvDefinition.itemAnimator = DefaultItemAnimator()
         rvDefinition.addItemDecoration(
             DividerItemDecoration(
-                rvDefinition.getContext(),
+                rvDefinition.context,
                 DividerItemDecoration.VERTICAL
             )
         )

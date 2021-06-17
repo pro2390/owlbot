@@ -5,14 +5,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import java.util.concurrent.TimeUnit
 
+// Http client builder used for retrofit instance.
 object ClientBuilder {
     fun createClient(): OkHttpClient.Builder {
 
         val logging = HttpLoggingInterceptor()
         if (BuildConfig.DEBUG) {
-            logging.setLevel(HttpLoggingInterceptor.Level.BODY)
+            logging.level = HttpLoggingInterceptor.Level.BODY
         } else {
-            logging.setLevel(HttpLoggingInterceptor.Level.NONE)
+            logging.level = HttpLoggingInterceptor.Level.NONE
         }
         val httpClient: OkHttpClient.Builder = OkHttpClient.Builder()
         httpClient.addInterceptor(logging)

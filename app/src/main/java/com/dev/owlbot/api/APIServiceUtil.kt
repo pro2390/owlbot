@@ -3,7 +3,7 @@ package com.dev.owlbot.api
 import com.dev.owlbot.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+//retrofit - util class for instance creation of retrofit
 class APIServiceUtil private constructor(baseUrl: String) {
     private val mRetrofit: Retrofit = Retrofit.Builder()
         .baseUrl(baseUrl)
@@ -14,7 +14,7 @@ class APIServiceUtil private constructor(baseUrl: String) {
         .build()
 
     fun getApiInterface(): APIInterface {
-               return mRetrofit.create<APIInterface>(APIInterface::class.java)
+               return mRetrofit.create(APIInterface::class.java)
     }
 
     companion object {

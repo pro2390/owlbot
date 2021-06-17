@@ -3,6 +3,7 @@ package com.dev.owlbot.home.model
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
+//Model class for definition object returned by api
 class Definition {
     @SerializedName("type")
     @Expose
@@ -20,7 +21,4 @@ class Definition {
     @Expose
     var imageUrl: String? = null
 
-    @SerializedName("emoji")
-    @Expose
-    var emoji: String? = null
 }

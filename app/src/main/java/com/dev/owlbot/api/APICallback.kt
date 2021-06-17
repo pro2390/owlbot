@@ -1,10 +1,9 @@
 package com.dev.owlbot.api
 
-import android.util.Log
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-
+//To handle callback of http request. We can get http error code through which we can differentiate the error type.
 abstract class APICallback<T> : Callback<T> {
     override fun onResponse(call: Call<T>, response: Response<T>) {
         val serverCode = response.raw().code()

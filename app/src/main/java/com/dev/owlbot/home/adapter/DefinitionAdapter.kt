@@ -12,6 +12,7 @@ import com.dev.owlbot.R
 import com.dev.owlbot.home.model.Definition
 import com.squareup.picasso.Picasso
 
+//Adapter for list of definition got from api for word searched
 class DefinitionAdapter(private val definitions: ArrayList<Definition>?) :
     Adapter<DefinitionAdapter.DefinitionViewHolder>() {
     override fun onCreateViewHolder(
@@ -25,19 +26,20 @@ class DefinitionAdapter(private val definitions: ArrayList<Definition>?) :
 
     override fun onBindViewHolder(holder: DefinitionAdapter.DefinitionViewHolder, position: Int) {
         val definition: Definition? = definitions?.get(position)
-        holder.type.setText(definition?.type)
-        holder.definition.setText(definition?.definition)
-        holder.example.setText(definition?.example)
+        holder.type.text = definition?.type
+        holder.definition.text =definition?.definition
+        holder.example.text=definition?.example
         if (definition?.imageUrl != null) {
-            Picasso.get().load(definition?.imageUrl).into(holder.image)
+            Picasso.get().load(definition.imageUrl).into(holder.image)
         }else {
             holder.image.visibility = GONE
         }
     }
 
     override fun getItemCount(): Int = definitions?.size!!
-    public fun clear(){
-        definitions?.clear();
+    //to clear the list from activity when to search a new word
+    fun clear(){
+        definitions?.clear()
     }
 
     inner class DefinitionViewHolder(v: View) : RecyclerView.ViewHolder(v) {
